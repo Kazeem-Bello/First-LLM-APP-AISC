@@ -4,7 +4,7 @@ from simple import *
 
 app = FastAPI()
 
-@app.get("*/healthz")
+@app.get("/healthz")
 async def health():
     return{
         "application": "Simple LLM API",
@@ -28,7 +28,7 @@ async def generate_chat(request: Request):
             "error": "You did not pass a correct model code!"
         }
     
-    response = generate(model, query["question"], temperature = temperature)
+    response = generate(query["question"], model, temperature = temperature)
 
     return {
         "status": "success",
@@ -36,5 +36,6 @@ async def generate_chat(request: Request):
     }
 
 if __name__ == "__main__":
+    import uvicorn
     print("Starting LLM API")
-    uvicorn.run(app, host = "0.0.0.0", reload = True)
+    uvicorn.run(app, host="0.0.0.0", reload=True)
